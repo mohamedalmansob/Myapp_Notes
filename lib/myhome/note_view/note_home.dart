@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mynotes/sqflite/sqflte.dart';
 import '../not_widget/widget.dart';
+import 'my_not.dart';
 
 class NoteHome extends StatefulWidget {
   const NoteHome({super.key});
@@ -66,20 +67,64 @@ class _NoteHomeState extends State<NoteHome> {
               ),
             ),
 
-            // ====== LIST ======
+
             isLoading
                 ? const Center(child: CircularProgressIndicator())
-                : ListView.builder(
-              itemCount: notes.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: ListTile(
-                    title: Text("${notes[index]["name"]}"),
-                    subtitle: Text("${notes[index]["desc"]}"),
-                  ),
-                );
-              },
-            ),
+                : Padding(
+                  padding: const EdgeInsets.only(top: 60.0),
+                  child: ListView.builder(
+                                itemCount: notes.length,
+                                itemBuilder: (context, index) {
+                  return
+
+                       Card(
+                          margin: const EdgeInsets.symmetric(
+                            vertical: 8,   // المسافة بين الكاردات
+                            horizontal: 12,),
+                        child: InkWell(
+                          onTap: (){
+
+                            Navigator.push(context, MaterialPageRoute(builder: (context) {
+                              return NoteCard(
+                                id: notes[index]["id"],
+                                name: notes[index]["name"],
+                                desc: notes[index]["desc"],
+                                onDelete: () async {
+                                  await sql.deleteData(
+                                      "DELETE FROM notes WHERE id = ${notes[index]["id"]}"
+                                  );
+                                  readData();
+                                },
+                                onEdit: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                    return NoteWidget(
+                                      isEdit: true,
+                                      id: notes[index]["id"],
+                                      desc: notes[index]["desc"],
+                                      titel: notes[index]["name"],
+                                    );
+                                  },));
+
+                                },
+                              );
+                            },));
+
+                          },
+                          child: ListTile(
+                            title: Text("${notes[index]["name"]}",
+                              maxLines: 1,                // سطر واحد فقط
+                              overflow: TextOverflow.ellipsis,),
+                            subtitle: Text("${notes[index]["desc"]}",
+                              maxLines: 1,                // سطر واحد فقط
+                              overflow: TextOverflow.ellipsis,),
+                          ),
+                        ),
+                      );
+
+
+                                },
+                              ),
+                ),
 
             // ====== ADD BUTTON ======
             Padding(
@@ -96,7 +141,7 @@ class _NoteHomeState extends State<NoteHome> {
                     await Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => NoteWidget(),
+                        builder: (context) => NoteWidget(isEdit: false,),
                       ),
                     );
 
