@@ -107,7 +107,7 @@ class NoteCard extends StatelessWidget {
 
                 const SizedBox(height: 40),
 
-                /// ===== NOTE CONTENT =====
+
                 SelectableText(
                   desc,
                   style: const TextStyle(

@@ -83,7 +83,7 @@ class _NoteHomeState extends State<NoteHome> {
                        Card(
                          color: kCardColor,
                           margin: const EdgeInsets.symmetric(
-                            vertical: 8,   // المسافة بين الكاردات
+                            vertical: 8,
                             horizontal: 12,),
                         child: InkWell(
                           onTap: ()async{
@@ -135,7 +135,7 @@ class _NoteHomeState extends State<NoteHome> {
                               ),
                 ),
 
-            // ====== ADD BUTTON ======
+
             Padding(
               padding: const EdgeInsets.only(top: 730, right: 300),
               child: Container(
@@ -154,7 +154,7 @@ class _NoteHomeState extends State<NoteHome> {
                       ),
                     );
 
-                    // تحديث تلقائي بعد الرجوع
+
                     readData();
                   },
                   child: const Center(

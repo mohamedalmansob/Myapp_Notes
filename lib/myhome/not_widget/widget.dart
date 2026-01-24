@@ -105,7 +105,7 @@ class NoteWidget extends StatelessWidget {
               ),
             ),
 
-            /// زر حفظ / تعديل
+
             Padding(
               padding: const EdgeInsets.only(top: 650, right: 30, left: 280),
               child: Container(
@@ -126,7 +126,7 @@ class NoteWidget extends StatelessWidget {
                           "INSERT INTO notes (name, `desc`) VALUES ('${titleController.text}', '${noteController.text}')"
                       );
                     }
-                    Navigator.pop(context, true); // الرجوع مع إرسال قيمة لتحديث الصفحة الرئيسية
+                    Navigator.pop(context, true);
                   },
                   child: Center(
                     child: Text(
