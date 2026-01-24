@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../not_widget/notes_colors.dart';
+
 class NoteCard extends StatelessWidget {
   final int id;
   final String name;
@@ -21,7 +23,8 @@ class NoteCard extends StatelessWidget {
     return Directionality(
        textDirection: TextDirection.rtl,
       child: Card(
-        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        color: kBodyColor,
+        margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
         elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
@@ -37,9 +40,13 @@ class NoteCard extends StatelessWidget {
 
                 Row(
                   children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 0.0),
+                      child: BackButton(),
+                    ),
                     Expanded(
                       child: Padding(
-                        padding:  EdgeInsets.only(right: 174.0),
+                        padding:  EdgeInsets.only(right: 130.0),
                         child: Text(
                           name,
                           maxLines: 1,
@@ -51,6 +58,7 @@ class NoteCard extends StatelessWidget {
                         ),
                       ),
                     ),
+
                     IconButton(
                       icon:  Icon(Icons.edit, color: Colors.blue),
                       onPressed: onEdit,

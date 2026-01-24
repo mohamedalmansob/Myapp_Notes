@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mynotes/sqflite/sqflte.dart';
+import '../not_widget/notes_colors.dart';
 import '../not_widget/widget.dart';
 import 'my_not.dart';
 
@@ -36,7 +37,7 @@ class _NoteHomeState extends State<NoteHome> {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.blue.shade800,
+          backgroundColor: kTitleColor,
           title: const Padding(
             padding: EdgeInsets.only(top: 20),
             child: Center(
@@ -53,13 +54,13 @@ class _NoteHomeState extends State<NoteHome> {
         body: Stack(
           children: [
             Container(
-              color: Colors.grey.shade700,
+              color: kBodyColor,
             ),
             Container(
               width: 450,
               height: 45,
               decoration: BoxDecoration(
-                color: Colors.blue.shade800,
+                color: kTitleColor,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(40),
                   bottomRight: Radius.circular(40),
@@ -78,6 +79,7 @@ class _NoteHomeState extends State<NoteHome> {
                   return
 
                        Card(
+                         color: kCardColor,
                           margin: const EdgeInsets.symmetric(
                             vertical: 8,   // المسافة بين الكاردات
                             horizontal: 12,),
@@ -112,9 +114,16 @@ class _NoteHomeState extends State<NoteHome> {
                           },
                           child: ListTile(
                             title: Text("${notes[index]["name"]}",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,fontSize: 25),
                               maxLines: 1,                // سطر واحد فقط
                               overflow: TextOverflow.ellipsis,),
-                            subtitle: Text("${notes[index]["desc"]}",
+                            subtitle: Text("${notes[index]["desc"]}"
+                              ,
+                              style: TextStyle(
+                                  color: Colors.blue.shade900,
+                                  fontWeight: FontWeight.bold,),
                               maxLines: 1,                // سطر واحد فقط
                               overflow: TextOverflow.ellipsis,),
                           ),
@@ -133,7 +142,7 @@ class _NoteHomeState extends State<NoteHome> {
                 width: 120,
                 height: 80,
                 decoration: BoxDecoration(
-                  color: Colors.blue.shade800,
+                  color: kButtonColor,
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: InkWell(

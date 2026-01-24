@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../sqflite/sqflte.dart';
+import 'notes_colors.dart';
 
 class NoteWidget extends StatelessWidget {
   final bool isEdit;
@@ -20,9 +21,12 @@ class NoteWidget extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.blue.shade800,
+          backgroundColor: kTitleColor,
+          leading: BackButton(
+            color: Colors.white,
+          ),
           title: Padding(
-            padding: const EdgeInsets.only(top: 1, left: 100),
+            padding: const EdgeInsets.only(top: 1, left: 10,right: 72),
             child: Text(
               isEdit ? "تعديل ملاحظة" : "إضافة ملاحظة",
               style: const TextStyle(
@@ -34,7 +38,7 @@ class NoteWidget extends StatelessWidget {
         ),
         body: Stack(
           children: [
-            Container(color: Colors.grey.shade700),
+            Container(color: kBodyColor),
 
             Padding(
               padding: const EdgeInsets.only(top: 120, left: 40, right: 40),
@@ -42,7 +46,7 @@ class NoteWidget extends StatelessWidget {
                 width: 400,
                 height: 500,
                 decoration: BoxDecoration(
-                    color: Colors.blue.shade800,
+                    color: kTitleColor,
                     borderRadius: BorderRadius.circular(40)
                 ),
                 child: Column(
@@ -108,7 +112,7 @@ class NoteWidget extends StatelessWidget {
                 width: 120,
                 height: 80,
                 decoration: BoxDecoration(
-                    color: Colors.blue.shade800,
+                    color: kButtonColor,
                     borderRadius: BorderRadius.circular(30)
                 ),
                 child: InkWell(
@@ -141,7 +145,7 @@ class NoteWidget extends StatelessWidget {
                 width: 120,
                 height: 80,
                 decoration: BoxDecoration(
-                    color: Colors.blue.shade800,
+                    color: kButtonColor,
                     borderRadius: BorderRadius.circular(30)
                 ),
                 child: InkWell(
