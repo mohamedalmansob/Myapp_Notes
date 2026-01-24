@@ -44,7 +44,7 @@ class _NoteHomeState extends State<NoteHome> {
             padding: EdgeInsets.only(top: 20),
             child: Center(
               child: Text(
-                "ملاحظاتي",
+                "ملاحظاتي ",
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -137,7 +137,7 @@ class _NoteHomeState extends State<NoteHome> {
 
 
             Padding(
-              padding: const EdgeInsets.only(top: 730, right: 300),
+              padding: const EdgeInsets.only(top: 700, right: 300,bottom: 30,left: 20),
               child: Container(
                 width: 120,
                 height: 80,
