@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mynotes/sqflite/sqflte.dart';
 import '../not_widget/notes_colors.dart';
@@ -84,17 +86,15 @@ class _NoteHomeState extends State<NoteHome> {
                             vertical: 8,   // المسافة بين الكاردات
                             horizontal: 12,),
                         child: InkWell(
-                          onTap: (){
+                          onTap: ()async{
 
+                               readData();
                             Navigator.push(context, MaterialPageRoute(builder: (context) {
                               return NoteCard(
                                 id: notes[index]["id"],
                                 name: notes[index]["name"],
                                 desc: notes[index]["desc"],
-                                onDelete: () async {
-                                  await sql.deleteData(
-                                      "DELETE FROM notes WHERE id = ${notes[index]["id"]}"
-                                  );
+                                readData:() {
                                   readData();
                                 },
                                 onEdit: () {

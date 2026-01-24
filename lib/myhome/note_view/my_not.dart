@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:mynotes/sqflite/sqflte.dart';
 
 import '../not_widget/notes_colors.dart';
+import 'note_home.dart';
 
 class NoteCard extends StatelessWidget {
   final int id;
   final String name;
   final String desc;
-  final VoidCallback onDelete;
   final VoidCallback onEdit;
+  final VoidCallback readData;
 
-  const NoteCard({
+   NoteCard({
     super.key,
     required this.id,
     required this.name,
     required this.desc,
-    required this.onDelete,
     required this.onEdit,
+    required this.readData,
   });
+  sqldb sql=sqldb();
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +68,39 @@ class NoteCard extends StatelessWidget {
                     ),
                     IconButton(
                       icon:  Icon(Icons.delete, color: Colors.red),
-                      onPressed: onDelete,
+                      onPressed: () async {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text("تأكيد الحذف"),
+                              content: const Text("هل تريد حذف هذه الملاحظة؟"),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text("إلغاء", style: TextStyle(color: Colors.grey)),
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+
+                                    await sql.deleteData(
+                                        "DELETE FROM notes WHERE id = $id"
+                                    );
+                                    readData();
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                      return NoteHome() ;
+                                    },));
+                                  },
+                                  child: const Text("موافق", style: TextStyle(color: Colors.red)),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+
                     ),
                   ],
                 ),
