@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mynotes/myhome/note_view/note_home.dart';
 import '../../sqflite/sqflte.dart';
 import 'notes_colors.dart';
 
-class NoteWidget extends StatelessWidget {
+class NoteWidget extends StatefulWidget {
   final bool isEdit;
   final String? titel;
   final String? desc;
@@ -10,12 +11,18 @@ class NoteWidget extends StatelessWidget {
 
   NoteWidget({super.key, this.isEdit = false, this.titel, this.desc, this.id});
 
-  final sqldb sql = sqldb();
+  @override
+  State<NoteWidget> createState() => _NoteWidgetState();
+}
 
+class _NoteWidgetState extends State<NoteWidget> {
+  final sqldb sql = sqldb();
+  Color isnull=kTitleColor;
   @override
   Widget build(BuildContext context) {
-    TextEditingController titleController = TextEditingController(text: titel ?? "");
-    TextEditingController noteController = TextEditingController(text: desc ?? "");
+
+    TextEditingController titleController = TextEditingController(text: widget.titel ?? "");
+    TextEditingController noteController = TextEditingController(text: widget.desc ?? "");
 
     return Directionality(
       textDirection: TextDirection.rtl,
@@ -28,7 +35,7 @@ class NoteWidget extends StatelessWidget {
           title: Padding(
             padding: const EdgeInsets.only(top: 1, left: 10,right: 72),
             child: Text(
-              isEdit ? "تعديل ملاحظة" : "إضافة ملاحظة",
+              widget.isEdit ? "تعديل ملاحظة" : "إضافة ملاحظة",
               style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold
@@ -46,7 +53,7 @@ class NoteWidget extends StatelessWidget {
                 width: 400,
                 height: 500,
                 decoration: BoxDecoration(
-                    color: kTitleColor,
+                    color: isnull,
                     borderRadius: BorderRadius.circular(40)
                 ),
                 child: Column(
@@ -117,20 +124,40 @@ class NoteWidget extends StatelessWidget {
                 ),
                 child: InkWell(
                   onTap: () async {
-                    if (isEdit) {
-                      await sql.updateData(
-                          "UPDATE 'notes' SET 'name'='${titleController.text}', 'desc'='${noteController.text}' WHERE id=$id"
-                      );
-                    } else {
-                      await sql.insertData(
-                          "INSERT INTO notes (name, `desc`) VALUES ('${titleController.text}', '${noteController.text}')"
-                      );
+                    if (titleController.text.isEmpty || noteController.text.isEmpty) {
+                      setState(() {
+                        isnull = Colors.red;
+                      });
+                      return;
                     }
-                    Navigator.pop(context, true);
+                    String message;
+                    if(widget.isEdit && titleController.text.isEmpty && noteController.text.isEmpty)
+                    {
+                        await sql.updateData(
+                            "UPDATE 'notes' SET 'name'='${titleController
+                                .text}', 'desc'='${noteController
+                                .text}' WHERE id=${widget.id}"
+                        );
+                        message = "تم التعديل بنجاح ️";
+
+
+                      }
+                      else{
+                        await sql.insertData(
+                            "INSERT INTO notes (name, `desc`) VALUES ('${titleController
+                                .text}', '${noteController.text}')"
+                        );
+                        message = "تمت الإضافة بنجاح ";
+                      }
+                     Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => NoteHome(
+                        successMessage: message,
+                      )),);
+
                   },
                   child: Center(
                     child: Text(
-                      isEdit ? "تعديل" : "إضافة",
+                      widget.isEdit ? "تعديل" : "إضافة",
                       style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                   ),

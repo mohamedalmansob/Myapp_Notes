@@ -7,7 +7,8 @@ import '../not_widget/widget.dart';
 import 'my_not.dart';
 
 class NoteHome extends StatefulWidget {
-  const NoteHome({super.key});
+  final String? successMessage;
+  const NoteHome({super.key,this.successMessage});
 
   @override
   State<NoteHome> createState() => _NoteHomeState();
@@ -23,6 +24,15 @@ class _NoteHomeState extends State<NoteHome> {
   void initState() {
     super.initState();
     readData();
+    if (widget.successMessage != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(widget.successMessage!),
+          ),
+        );
+      });
+    }
   }
 
   Future<void> readData() async {
@@ -52,6 +62,7 @@ class _NoteHomeState extends State<NoteHome> {
               ),
             ),
           ),
+          automaticallyImplyLeading: false,
         ),
         body: Stack(
           children: [
@@ -157,7 +168,7 @@ class _NoteHomeState extends State<NoteHome> {
 
                     readData();
                   },
-                  child: const Center(
+                  child:  Center(
                     child: Text(
                       "اضافة",
                       style: TextStyle(
