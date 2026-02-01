@@ -54,7 +54,7 @@ class _NoteHomeState extends State<NoteHome> {
             padding: EdgeInsets.only(top: 20),
             child: Center(
               child: Text(
-                "ملاحظاتي ",
+                "ملاحظات المهندس عبد الله محمد حمود ",
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -102,7 +102,6 @@ class _NoteHomeState extends State<NoteHome> {
                                readData();
                             Navigator.push(context, MaterialPageRoute(builder: (context) {
                               return NoteCard(
-                                id: notes[index]["id"],
                                 name: notes[index]["name"],
                                 desc: notes[index]["desc"],
                                 readData:() {
@@ -137,6 +136,41 @@ class _NoteHomeState extends State<NoteHome> {
                                   fontWeight: FontWeight.bold,),
                               maxLines: 1,                // سطر واحد فقط
                               overflow: TextOverflow.ellipsis,),
+                            trailing:   IconButton(
+                              icon:  Icon(Icons.delete, color: Colors.red),
+                              onPressed: () async {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text("تأكيد الحذف"),
+                                      content: const Text("هل تريد حذف هذه الملاحظة؟"),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text("إلغاء", style: TextStyle(color: Colors.grey)),
+                                        ),
+                                        TextButton(
+                                          onPressed: () async {
+
+                                            await sql.deleteData(
+                                                "DELETE FROM notes WHERE id = ${notes[index]["id"]}"
+                                            );
+                                            readData();
+                                            Navigator.of(context).pop(); // اغلاق الـ Dialog
+                                            // تحديث البيانات
+                                          },
+                                          child: const Text("موافق", style: TextStyle(color: Colors.red)),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+
+                            ),
                           ),
                         ),
                       );
@@ -148,10 +182,10 @@ class _NoteHomeState extends State<NoteHome> {
 
 
             Padding(
-              padding: const EdgeInsets.only(top: 700, right: 300,bottom: 30,left: 20),
+              padding: const EdgeInsets.only(top: 560, right: 270,bottom: 30,left: 10),
               child: Container(
                 width: 120,
-                height: 80,
+                height: 60,
                 decoration: BoxDecoration(
                   color: kButtonColor,
                   borderRadius: BorderRadius.circular(30),
@@ -176,6 +210,26 @@ class _NoteHomeState extends State<NoteHome> {
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                       ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 640, right: 0,bottom: 0,left: 0),
+              child: Container(
+                width: 540,
+                height: 80,
+                decoration: BoxDecoration(
+                  color: kButtonColor,
+                  borderRadius: BorderRadius.circular(0),
+                ),
+                child: Center(
+                  child: Text(
+                    "برمجة وتصميم المهندس ؟ محمد عبده حمود المنصوب",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
                     ),
                   ),
                 ),
